@@ -20,24 +20,21 @@ else {
 // here are funcitons to fetch data from local storage to find out if the scheduler is oppend on a new day///
 grabData();
 checkDay()
-
-/// function for when time is before 9am, assigning all but the first row the future class
+///here are functions for loop to invoc future classes for all rows except the first row///
 function allFuture() {
     for (i = 1; i < classes.length; i++) {
         $(classes[i]).addClass("future");
     }
     $(classes[0]).addClass("present");
 }
-
-/// function for when time is after 6pm, assigning all but the last row the past class
+/// here function for loop for when the time is after business hours-6pm, then assing all rows but the last///
 function allPast() {
     for (i = 0; i < classes.length - 1; i++) {
         $(classes[i]).addClass("past");
     }
     $(classes[time.length - 1]).addClass("present");
 }
-
-/// function for middle of the day- uses moment api to determine the hour and assigns classes by that
+///function for loop for middday, using moment to know what hour and assign classes ///
 function formatTimes() {
     $(classes[classIndex]).addClass("present");
     for (i = 0; i < classIndex; i++) {
@@ -47,8 +44,7 @@ function formatTimes() {
         $(classes[i]).addClass("future");
     }
 }
-
-//save button function, stores in allNotes array and local storage data
+///fucntion to store data after been saved in array and local storage///
 $(".saveBtn").on("click", function () {
     var di = $(this).data('index');
     allNotes[di] = $(classes[di]).val();
@@ -56,8 +52,7 @@ $(".saveBtn").on("click", function () {
     alert("Saved")
 
 })
-
-//grabData function, restores data to rows from local storage
+///create function to restore date to the rows from where it was saved: ;;pca storage and allnotes///
 function grabData() {
     allNotes = JSON.parse(localStorage.getItem("allNotes"));
     if (allNotes == null) {
@@ -68,23 +63,20 @@ function grabData() {
         ($(classes[i])).val(allNotes[i]);
     }
 }
-
-//click event for the clear button
+//this is the click event cutton to clear //
 $(".cleary").on("click", function () {
     cleardata()
 })
-
-//clear data function, clears allnote array, all rows and stores empty array in local storage
+//clear all fucntion, and store empty array in local storage//
 function cleardata() {
-    var confirmDelete = confirm("Are you sure you want to clear all data?");
+    var confirmDelete = confirm("please confirm you wanna clear all 🤔");
     if (confirmDelete == true) {
         allNotes = ["", "", "", "", "", "", "", "", "", "", ""];
         localStorage.setItem('allNotes', JSON.stringify(allNotes));
         grabData();
     }
 }
-
-//function that compares current day with last day stored in local storage. offers user to clear data if day has changed.
+///create fucniton to compare current day to previous day, and ask users to clear data if new day//
 function checkDay() {
     var dateSet = localStorage.getItem("date");
     if (dateSet == null) {
@@ -92,7 +84,7 @@ function checkDay() {
     }
     else if (currentDayCheck !== dateSet) {
         localStorage.setItem('date', currentDayCheck);
-        var confirmNewDay = confirm("It's a new day, would you like to clear the calendar?")
+        var confirmNewDay = confirm("It's a new day! wanna clear calendar 😄?")
         if (confirmNewDay == true) {
             cleardata()
             localStorage.setItem('date', currentDayCheck);
@@ -100,7 +92,7 @@ function checkDay() {
     }
 }
 
-//save all button function, stores everything in allNotes array and local storage data
+//create fucntion to save all button function, stores everything in allNotes array and local storage data
 $(".savey").on("click", function () {
     for (i = 0; i < classes.length; i++) {
         allNotes[i] = $(classes[i]).val();
